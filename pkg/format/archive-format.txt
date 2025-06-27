@@ -1,0 +1,63 @@
+Archive structure
+[Header]
+File tree section:
+    [File Node Descriptor]
+    [File Node Descriptor]
+    ...
+Data section:
+    File data section:
+        [Data encoding node]
+        [Data Node (standard)]
+        [Data Node (standard)]
+        ...
+        [Data Node (last)]
+    File data section:
+        [Data encoding node]
+        [Data Node (standard)]
+        [Data Node (standard)]
+        ...
+        [Data Node (last)]
+
+[Header] - 32 bytes
+- Magic number - (b'ssaf')                  | 4 bytes
+- Header Length - (uint8)                   | 1 bytes
+- Version - (uint8 for major, minor, patch) | 3 bytes
+- Batch Size - (uint64)                     | 8 bytes
+- Nodes count - (uint64)                    | 8 bytes
+- File tree section pointer (uin64)         | 8 bytes
+- Data section pointer (uint64)             | 8 bytes
+
+[Data encoding node]
+- Data                                      | 256 bytes
+
+buckle up it is 01 53 I am sleepy and my english is not englishing
+byte of info has 256 possible states
+we rank each possible state on it's frequency in this file
+i.e. 0x7B in offset 2 would mean that:
+value 0x02 is ranked 123rd in file based on frequency
+
+[File Node Descriptor] - 39 + ? bytes
+- ID                                        | 4 bytes
+- Name Length (uint 16)                     | 2 bytes
+- is dir (byte)                             | 1 bytes
+- Modification Time (UnixNano)              | 8 bytes 
+- Parent ID                                 | 4 bytes
+- Size of File (uint64)                     | 8 bytes 
+- CheckSum                                  | 4 bytes
+- Number of data nodes (uint64)             | 8 bytes
+- Data pointer (uint 64)                    | 8 bytes 
+- Name (variable)                           | ? bytes
+
+[Data pack (standard)] - Batch size + 20 bytes 
+-File ID                                    | 4 bytes
+-Batch number (uint64)                      | 8 bytes
+-Stored data size (uint64)                  | 8 bytes        
+-Data                                       | Batch Size 
+
+[Data Node (last)] - Encoded data length + 20 bytes
+-File ID                                    | 4 bytes
+-Batch number                               | 8 bytes
+-Encoded data length (uint64)               | 8 bytes
+-Data                                       | Encode data length
+
+
