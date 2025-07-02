@@ -60,12 +60,56 @@ func (node *FileNode) Encode() ([]byte, error) {
 	if err := binary.Write(buf, binary.LittleEndian, node.DataPointer); err != nil {
 		return nil, err
 	}
-	// Write variable-length fields (Name, Data)
+	// Write variable-length fields (Name)
 
-	if err := binary.Write(buf, binary.LittleEndian, uint16(len(nameBytes))); err != nil {
-		return nil, err
-	}
 	if _, err := buf.Write(nameBytes); err != nil {
 		return nil, err
 	}
+
+	return buf.Bytes(), nil
+}
+
+func DecodeFileNode(data []byte) (*FileNode, error) {
+	buf := bytes.NewReader(data)
+	node := &FileNode{}
+
+	// Read fixed-size fields
+	if err := binary.Read(buf, binary.LittleEndian, &node.ID); err != nil {
+		return nil, err
+	}
+	var nameLen uint16
+	if err := binary.Read(buf, binary.LittleEndian, nameLen); err != nil {
+		return nil, err
+	}
+	if err := binary.Read(buf, binary.LittleEndian, &node.IsDir); err != nil {
+		return nil, err
+	}
+	var modTimeUnix int64
+	if err := binary.Read(buf, binary.LittleEndian, &modTimeUnix); err != nil {
+		return nil, err
+	}
+	node.ModTime = time.Unix(0, modTimeUnix)
+	if err := binary.Read(buf, binary.LittleEndian, &node.ParentID); err != nil {
+		return nil, err
+	}
+	if err := binary.Read(buf, binary.LittleEndian, &node.FileSize); err != nil {
+		return nil, err
+	}
+	if err := binary.Read(buf, binary.LittleEndian, &node.CheckSum); err != nil {
+		return nil, err
+	}
+	if err := binary.Read(buf, binary.LittleEndian, &node.DataNodesCount); err != nil {
+		return nil, err
+	}
+	if err := binary.Read(buf, binary.LittleEndian, &node.DataPointer); err != nil {
+		return nil, err
+	}
+
+	nameBytes := make([]byte, nameLen)
+	if _, err := buf.Read(nameBytes); err != nil {
+		return nil, err
+	}
+	node.Name = string(nameBytes)
+
+	return node, nil
 }
