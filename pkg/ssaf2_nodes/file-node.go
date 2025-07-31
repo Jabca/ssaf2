@@ -1,4 +1,4 @@
-package format
+package ssaf2_nodes
 
 import (
 	"bytes"
