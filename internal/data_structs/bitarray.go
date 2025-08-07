@@ -5,8 +5,8 @@ import "encoding/binary"
 // Realizes operations with bits using binary operations.
 // Needed for processing values with dynamic binary size
 type BitArray struct {
-	counter uint8
 	data    uint64
+	counter uint8
 }
 
 // Add value to the right of bitarray, pass 0 to add 0, other values will be interpreted as 1

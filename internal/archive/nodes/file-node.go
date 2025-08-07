@@ -9,13 +9,13 @@ import (
 type FileNode struct {
 	// fixed sized fields
 	ID             [4]byte
-	IsDir          bool
 	ModTime        time.Time
 	ParentID       [4]byte
 	FileSize       uint64
 	CheckSum       [4]byte
 	DataNodesCount uint64
 	DataPointer    uint64
+	IsDir          bool
 	// variable sized fields
 	Name string
 }

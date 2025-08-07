@@ -37,15 +37,14 @@ i.e. 0x7B in offset 2 would mean that:
 value 0x02 is ranked 123rd in file based on frequency
 
 [File Node Descriptor] - 39 + ? bytes
-- ID                                        | 4 bytes
-- Name Length (uint 16)                     | 2 bytes
-- is dir (byte)                             | 1 bytes
 - Modification Time (UnixNano)              | 8 bytes 
-- Parent ID                                 | 4 bytes
 - Size of File (uint64)                     | 8 bytes 
 - CheckSum                                  | 4 bytes
 - Number of data nodes (uint64)             | 8 bytes
 - Data pointer (uint 64)                    | 8 bytes 
+- ID                                        | 4 bytes
+- Name Length (uint 16)                     | 2 bytes
+- is dir (byte)                             | 1 bytes
 - Name (variable)                           | ? bytes
 
 [Data pack (standard)] - Batch size + 20 bytes 
