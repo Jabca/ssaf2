@@ -1,4 +1,4 @@
-package ssaf2_nodes
+package nodes
 
 import (
 	"bytes"

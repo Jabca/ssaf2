@@ -1,3 +1,3 @@
-module github.com/jabca/ssaf2
+module ssaf2
 
-go 1.24.4
+go 1.24.5

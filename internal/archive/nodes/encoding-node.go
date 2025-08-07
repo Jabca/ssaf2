@@ -1,4 +1,4 @@
-package ssaf2_nodes
+package nodes
 
 import (
 	"bytes"
@@ -6,18 +6,18 @@ import (
 )
 
 type EncodingNode struct {
-	data [256]byte
+	Data [256]byte
 }
 
 func (node *EncodingNode) Encode() ([]byte, error) {
-	return node.data[:], nil
+	return node.Data[:], nil
 }
 
 func (node *EncodingNode) Decode(data []byte) (*EncodingNode, error) {
 	buf := bytes.NewReader(data)
 	node = &EncodingNode{}
 
-	if err := binary.Read(buf, binary.LittleEndian, &node.data); err != nil {
+	if err := binary.Read(buf, binary.LittleEndian, &node.Data); err != nil {
 		return nil, err
 	}
 
