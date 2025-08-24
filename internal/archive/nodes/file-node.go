@@ -70,43 +70,43 @@ func (node *FileNode) Encode() ([]byte, error) {
 }
 
 func DecodeFileNode(data []byte) (*FileNode, error) {
-	buf := bytes.NewReader(data)
+	reader := bytes.NewReader(data)
 	node := &FileNode{}
 
 	// Read fixed-size fields
-	if err := binary.Read(buf, binary.LittleEndian, &node.ID); err != nil {
+	if err := binary.Read(reader, binary.LittleEndian, &node.ID); err != nil {
 		return nil, err
 	}
 	var nameLen uint16
-	if err := binary.Read(buf, binary.LittleEndian, nameLen); err != nil {
+	if err := binary.Read(reader, binary.LittleEndian, nameLen); err != nil {
 		return nil, err
 	}
-	if err := binary.Read(buf, binary.LittleEndian, &node.IsDir); err != nil {
+	if err := binary.Read(reader, binary.LittleEndian, &node.IsDir); err != nil {
 		return nil, err
 	}
 	var modTimeUnix int64
-	if err := binary.Read(buf, binary.LittleEndian, &modTimeUnix); err != nil {
+	if err := binary.Read(reader, binary.LittleEndian, &modTimeUnix); err != nil {
 		return nil, err
 	}
 	node.ModTime = time.Unix(0, modTimeUnix)
-	if err := binary.Read(buf, binary.LittleEndian, &node.ParentID); err != nil {
+	if err := binary.Read(reader, binary.LittleEndian, &node.ParentID); err != nil {
 		return nil, err
 	}
-	if err := binary.Read(buf, binary.LittleEndian, &node.FileSize); err != nil {
+	if err := binary.Read(reader, binary.LittleEndian, &node.FileSize); err != nil {
 		return nil, err
 	}
-	if err := binary.Read(buf, binary.LittleEndian, &node.CheckSum); err != nil {
+	if err := binary.Read(reader, binary.LittleEndian, &node.CheckSum); err != nil {
 		return nil, err
 	}
-	if err := binary.Read(buf, binary.LittleEndian, &node.DataNodesCount); err != nil {
+	if err := binary.Read(reader, binary.LittleEndian, &node.DataNodesCount); err != nil {
 		return nil, err
 	}
-	if err := binary.Read(buf, binary.LittleEndian, &node.DataPointer); err != nil {
+	if err := binary.Read(reader, binary.LittleEndian, &node.DataPointer); err != nil {
 		return nil, err
 	}
 
 	nameBytes := make([]byte, nameLen)
-	if _, err := buf.Read(nameBytes); err != nil {
+	if _, err := reader.Read(nameBytes); err != nil {
 		return nil, err
 	}
 	node.Name = string(nameBytes)
