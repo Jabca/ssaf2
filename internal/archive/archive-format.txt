@@ -13,10 +13,10 @@ Data section:
         [Data Node (last)]
     File data section:
         [Data encoding node]
-        [Data Node (standard)]
-        [Data Node (standard)]
+        [Data Node]
+        [Data Node]
         ...
-        [Data Node (last)]
+        [Data Node)]
 
 [Header] - 32 bytes
 - Magic bytes - (b'ssaf')                  | 4 bytes
@@ -47,16 +47,10 @@ value 0x02 is ranked 123rd in file based on frequency
 - is dir (byte)                             | 1 bytes
 - Name (variable)                           | ? bytes
 
-[Data Node (standard)] - Batch size + 20 bytes 
+[Data Node] - Batch size + 20 bytes 
 -File ID                                    | 4 bytes
 -Batch number (uint64)                      | 8 bytes
 -Stored data size (uint64)                  | 8 bytes        
 -Data                                       | Batch Size 
-
-[Data Node (last)] - Encoded data length + 20 bytes
--File ID                                    | 4 bytes
--Batch number                               | 8 bytes
--Encoded data length (uint64)               | 8 bytes
--Data                                       | Encode data length
 
 
