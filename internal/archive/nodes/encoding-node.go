@@ -6,18 +6,18 @@ import (
 )
 
 type EncodingNode struct {
-	Data [256]byte
+	Ranks [256]byte
 }
 
 func (node *EncodingNode) Encode() ([]byte, error) {
-	return node.Data[:], nil
+	return node.Ranks[:], nil
 }
 
 func (node *EncodingNode) Decode(data []byte) (*EncodingNode, error) {
 	buf := bytes.NewReader(data)
 	node = &EncodingNode{}
 
-	if err := binary.Read(buf, binary.LittleEndian, &node.Data); err != nil {
+	if err := binary.Read(buf, binary.LittleEndian, &node.Ranks); err != nil {
 		return nil, err
 	}
 

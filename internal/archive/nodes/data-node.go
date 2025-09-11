@@ -6,24 +6,20 @@ import (
 )
 
 type DataNode struct {
-	fileID      uint64
-	batchNumber uint64
-	storedCount uint64
-	data        []byte
+	BatchNumber uint64
+	StoredCount uint32
+	Data        []byte
 }
 
 func (node *DataNode) Encode() ([]byte, error) {
 	buf := new(bytes.Buffer)
-	if err := binary.Write(buf, binary.LittleEndian, node.fileID); err != nil {
+	if err := binary.Write(buf, binary.LittleEndian, node.BatchNumber); err != nil {
 		return nil, err
 	}
-	if err := binary.Write(buf, binary.LittleEndian, node.batchNumber); err != nil {
+	if err := binary.Write(buf, binary.LittleEndian, node.StoredCount); err != nil {
 		return nil, err
 	}
-	if err := binary.Write(buf, binary.LittleEndian, node.storedCount); err != nil {
-		return nil, err
-	}
-	if err := binary.Write(buf, binary.LittleEndian, node.data); err != nil {
+	if err := binary.Write(buf, binary.LittleEndian, node.Data); err != nil {
 		return nil, err
 	}
 
@@ -35,13 +31,10 @@ func DecodeDataNode(data []byte, batchSize uint64) (*DataNode, error) {
 	reader := bytes.NewReader(data)
 	node := &DataNode{}
 
-	if err := binary.Read(reader, binary.LittleEndian, &node.fileID); err != nil {
+	if err := binary.Read(reader, binary.LittleEndian, &node.BatchNumber); err != nil {
 		return nil, err
 	}
-	if err := binary.Read(reader, binary.LittleEndian, &node.batchNumber); err != nil {
-		return nil, err
-	}
-	if err := binary.Read(reader, binary.LittleEndian, &node.storedCount); err != nil {
+	if err := binary.Read(reader, binary.LittleEndian, &node.StoredCount); err != nil {
 		return nil, err
 	}
 	dataBytes := make([]byte, batchSize)
@@ -49,7 +42,7 @@ func DecodeDataNode(data []byte, batchSize uint64) (*DataNode, error) {
 		return nil, err
 	}
 
-	node.data = dataBytes
+	node.Data = dataBytes
 
 	return node, nil
 

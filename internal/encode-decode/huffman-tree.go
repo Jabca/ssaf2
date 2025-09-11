@@ -2,7 +2,7 @@ package encodeDecode
 
 import (
 	"ssaf2/internal/archive/nodes"
-	dataStructs "ssaf2/internal/data_structs"
+	dataStructs "ssaf2/internal/dataStructs"
 )
 
 type tNode struct {
@@ -27,9 +27,9 @@ func createHF(node *nodes.EncodingNode) HuffmanTree {
 	var value byte
 	var rating uint8
 	// initially populate with data nodes
-	for i := range len(node.Data) {
+	for i := range len(node.Ranks) {
 		value = byte(i)
-		rating = node.Data[i]
+		rating = node.Ranks[i]
 		item := &tNode{data: value}
 		pq.Enqueue(item, int(rating))
 	}

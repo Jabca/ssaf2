@@ -8,13 +8,13 @@ import (
 
 type FileNode struct {
 	// fixed sized fields
-	ID             [4]byte
+	ID             uint64
 	ModTime        time.Time
 	ParentID       [4]byte
 	FileSize       uint64
-	CheckSum       [4]byte
+	CheckSum       [32]byte
 	DataNodesCount uint64
-	DataPointer    uint64
+	DataOffset     int64
 	IsDir          bool
 	// variable sized fields
 	Name string
@@ -57,7 +57,7 @@ func (node *FileNode) Encode() ([]byte, error) {
 		return nil, err
 	}
 
-	if err := binary.Write(buf, binary.LittleEndian, node.DataPointer); err != nil {
+	if err := binary.Write(buf, binary.LittleEndian, node.DataOffset); err != nil {
 		return nil, err
 	}
 	// Write variable-length fields (Name)
@@ -101,7 +101,7 @@ func DecodeFileNode(data []byte) (*FileNode, error) {
 	if err := binary.Read(reader, binary.LittleEndian, &node.DataNodesCount); err != nil {
 		return nil, err
 	}
-	if err := binary.Read(reader, binary.LittleEndian, &node.DataPointer); err != nil {
+	if err := binary.Read(reader, binary.LittleEndian, &node.DataOffset); err != nil {
 		return nil, err
 	}
 

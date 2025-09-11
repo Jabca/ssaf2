@@ -19,7 +19,7 @@ Data section:
         [Data Node)]
 
 [Header] - 32 bytes
-- Magic bytes - (b'ssaf')                  | 4 bytes
+- Magic bytes - (b'ssaf')                   | 4 bytes
 - Header Length - (uint8)                   | 1 bytes
 - Version - (uint8 for major, minor, patch) | 3 bytes
 - Batch Size - (uint64)                     | 8 bytes
@@ -35,6 +35,7 @@ byte of info has 256 possible states
 we rank each possible state on it's frequency in this file
 i.e. 0x7B in offset 2 would mean that:
 value 0x02 is ranked 123rd in file based on frequency
+index = byte value, value = rank
 
 [File Node Descriptor] - 39 + ? bytes
 - Modification Time (UnixNano)              | 8 bytes 

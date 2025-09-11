@@ -4,11 +4,13 @@ import (
 	"flag"
 	"log"
 	"path/filepath"
+	"ssaf2/internal/appInterface"
 )
 
 func main() {
-	batchCount := flag.Int("batchSize", 1024*1024, "size of chunks (int bytes) to which files will be divided for processing")
-	recursive := flag.Bool("recursive", false, "Treat input path as dir and recursively process it")
+	batchSize := flag.Int64("bs", 1024*1024, "size of chunks (int bytes) to which files will be divided for processing")
+	recursive := flag.Bool("rec", false, "Treat input path as dir and recursively process it")
+	decode := flag.Bool("dc", false, "Decode input path as archive")
 
 	flag.Parse()
 
@@ -22,5 +24,22 @@ func main() {
 	}
 
 	absPath, err := filepath.Abs(args[0])
+	if err != nil {
+		log.Fatal(err)
+	}
+	params := appInterface.CliParams{
+		BatchSize:  *batchSize,
+		Recursive:  *recursive,
+		Decode:     *decode,
+		TargetPath: absPath,
+	}
+
+	return_code := appInterface.ExecuteApp(params)
+
+	if return_code != 0 {
+		log.Printf("Execution failed, app returned error code: %d", return_code)
+	} else {
+		log.Printf("Execution was successful!")
+	}
 
 }
